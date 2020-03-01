@@ -50,7 +50,8 @@ class DownLoadSongManager(context: Context, workerParams: WorkerParameters) : Wo
             output.close()
             input.close()
 
-            ringtoneSetter.setRingtone(applicationContext,Environment.getExternalStorageDirectory().absolutePath+"/Ringtones"+"/songringtone")
+            ringtoneSetter.setRingtone(applicationContext,
+                Environment.getExternalStorageDirectory().absolutePath+"/Ringtones","songringtone.mp3")
 
         } catch (e: Exception) {
             return Result.retry()

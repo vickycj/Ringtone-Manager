@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.work.*
 import com.vicky.apps.datapoints.base.AppConstants.PERIODIC_INTERVAL
 import com.vicky.apps.datapoints.base.AppConstants.PERMISION_REQUEST
+import com.vicky.apps.datapoints.base.AppConstants.URLFILE
 import com.vicky.apps.datapoints.base.BaseActivity
 import com.vicky.apps.datapoints.common.ViewModelProviderFactory
 import com.vicky.apps.datapoints.ui.DownLoadSongManager
@@ -60,28 +61,31 @@ class MainActivity : BaseActivity() {
         initializeValues()
         progressBar.hide()
 
+        urlText.setText(URLFILE)
+
+       setRingtone.setOnClickListener {
+           checkPermissionAndLaunch()
+       }
+    }
+
+    private fun checkPermissionAndLaunch() {
+        @RequiresApi(Build.VERSION_CODES.M)
+        if(!checkSystemWritePermission()) {
+            openAndroidPermissionsMenu()
+            return
+        }
 
         runtimePermission.requestPermission(listOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
             object : RunTimePermission.PermissionCallback {
                 override fun onGranted() {
 
-                   StartOneTimeWorkManager()
+                    StartOneTimeWorkManager()
                 }
 
                 override fun onDenied() {
                     //show message if not allow storage permission
                 }
             })
-    }
-
-
-    override fun onResume() {
-        super.onResume()
-
-        @RequiresApi(Build.VERSION_CODES.M)
-        if(!checkSystemWritePermission()) {
-            openAndroidPermissionsMenu()
-        }
     }
 
 
@@ -175,7 +179,7 @@ class MainActivity : BaseActivity() {
                 titleText.text = "Downloading File"
             }
             false ->{ progressBar.hide()
-                titleText.text = "File Downloaded"
+                titleText.text = "Ringtone Set"
             }
         }
     }

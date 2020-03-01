@@ -6,16 +6,43 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:background="@color/colorPrimaryDark">
 
+    <EditText
+            android:id="@+id/urlText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="16dp"
+            android:textColor="@color/textColor"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:hint="Only MP3 URls"
+            tools:text="Test url" />
+
+    <Button
+            android:id="@+id/setRingtone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@color/colorPrimary"
+            android:text="Download And Set Ringtone"
+            android:textColor="@color/textColor"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/urlText" />
 
     <ImageView
             android:id="@+id/imageView"
             android:layout_width="@dimen/DP_50"
             android:layout_height="@dimen/DP_50"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="192dp"
+            android:layout_marginTop="32dp"
             android:src="@drawable/mp_image"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/setRingtone" />
 
     <TextView
             android:id="@+id/titleText"
@@ -53,7 +80,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="32dp"
+            android:layout_marginBottom="64dp"
             android:src="@drawable/ringtone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
