@@ -7,4 +7,5 @@
     <dimen name="DP_80">80dp</dimen>
     <dimen name="DP_32">32dp</dimen>
     <dimen name="DP_24">24dp</dimen>
+    <dimen name="DP_50">50dp</dimen>
 </resources>
