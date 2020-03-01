@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Ringtone</string>
+    <string name="work_done">Download Complete</string>
+    <string name="work_done_new">Work Completed</string>
 </resources>
