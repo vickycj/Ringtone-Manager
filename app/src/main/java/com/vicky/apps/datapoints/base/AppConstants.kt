@@ -4,5 +4,5 @@ object AppConstants {
 
     const val PERMISION_REQUEST = 100
     const val PERIODIC_INTERVAL = 15L
-    const val URLFILE = "https://file-examples.com/wp-content/uploads/2017/11/file_example_MP3_700KB.mp3"
+    var URLFILE = "https://ringtone-app.s3-eu-west-1.amazonaws.com/Ringtone/songringtone.mp3"
 }

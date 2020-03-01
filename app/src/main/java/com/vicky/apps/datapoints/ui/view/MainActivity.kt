@@ -121,6 +121,7 @@ class MainActivity : BaseActivity() {
 
     private fun StartOneTimeWorkManager() {
 
+        URLFILE = urlText.text.toString()
         val constraints = Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build()
         val task = OneTimeWorkRequest.Builder(DownLoadSongManager::class.java).setConstraints(constraints).build()
         workManager.enqueue(task)
