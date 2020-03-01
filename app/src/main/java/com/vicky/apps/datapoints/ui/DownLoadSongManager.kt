@@ -31,7 +31,7 @@ class DownLoadSongManager(context: Context, workerParams: WorkerParameters) : Wo
             val input = BufferedInputStream(url.openStream(), 8192)
 
             // Output stream to write file
-            val output = FileOutputStream(Environment.getDownloadCacheDirectory().path+"/songringtone.mp3")
+            val output = FileOutputStream(Environment.getExternalStorageDirectory().absolutePath+"/Ringtones"+"/songringtone.mp3")
 
             val data = ByteArray(1024)
 
@@ -50,7 +50,7 @@ class DownLoadSongManager(context: Context, workerParams: WorkerParameters) : Wo
             output.close()
             input.close()
 
-            ringtoneSetter.setRingtone(applicationContext,Environment.getDownloadCacheDirectory().path+"/songringtone.mp3")
+            ringtoneSetter.setRingtone(applicationContext,Environment.getExternalStorageDirectory().absolutePath+"/Ringtones"+"/songringtone")
 
         } catch (e: Exception) {
             return Result.retry()

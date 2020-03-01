@@ -1,8 +1,15 @@
 package com.vicky.apps.datapoints.ui.view
 
-import com.vicky.apps.datapoints.ui.RunTimePermission
+import android.Manifest
+import android.app.PendingIntent.getActivity
+import android.content.Intent
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
+import android.util.Log
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
@@ -12,6 +19,7 @@ import com.vicky.apps.datapoints.base.AppConstants.PERMISION_REQUEST
 import com.vicky.apps.datapoints.base.BaseActivity
 import com.vicky.apps.datapoints.common.ViewModelProviderFactory
 import com.vicky.apps.datapoints.ui.DownLoadSongManager
+import com.vicky.apps.datapoints.ui.RunTimePermission
 import com.vicky.apps.datapoints.ui.adapter.DataAdapter
 import com.vicky.apps.datapoints.ui.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
@@ -50,7 +58,30 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(com.vicky.apps.datapoints.R.layout.activity_main)
         initializeValues()
-        StartOneTimeWorkManager()
+        progressBar.hide()
+
+
+        runtimePermission.requestPermission(listOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+            object : RunTimePermission.PermissionCallback {
+                override fun onGranted() {
+
+                   StartOneTimeWorkManager()
+                }
+
+                override fun onDenied() {
+                    //show message if not allow storage permission
+                }
+            })
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+
+        @RequiresApi(Build.VERSION_CODES.M)
+        if(!checkSystemWritePermission()) {
+            openAndroidPermissionsMenu()
+        }
     }
 
 
@@ -86,7 +117,7 @@ class MainActivity : BaseActivity() {
 
     private fun StartOneTimeWorkManager() {
 
-        val constraints = androidx.work.Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build()
+        val constraints = Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build()
         val task = OneTimeWorkRequest.Builder(DownLoadSongManager::class.java).setConstraints(constraints).build()
         workManager.enqueue(task)
 
@@ -140,8 +171,12 @@ class MainActivity : BaseActivity() {
      */
     private fun loaderShow(flag: Boolean) {
         when (flag) {
-            true -> progressBar.show()
-            false -> progressBar.hide()
+            true ->{ progressBar.show()
+                titleText.text = "Downloading File"
+            }
+            false ->{ progressBar.hide()
+                titleText.text = "File Downloaded"
+            }
         }
     }
 
@@ -152,6 +187,27 @@ class MainActivity : BaseActivity() {
         if (requestCode == PERMISION_REQUEST)
             runtimePermission.onRequestPermissionsResult(grantResults)
 
+    }
+
+    private fun checkSystemWritePermission(): Boolean {
+        var retVal = true
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            retVal = Settings.System.canWrite(this)
+            Log.d("name", "Can Write Settings: $retVal")
+            if (retVal) {
+               // Toast.makeText(this, "Write allowed :-)", Toast.LENGTH_LONG).show()
+            } else {
+                Toast.makeText(this, "Write not allowed :-)", Toast.LENGTH_LONG).show()
+            }
+        }
+        return retVal
+    }
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    private fun openAndroidPermissionsMenu() {
+        val intent = Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS)
+        intent.data = Uri.parse("package:$packageName")
+        startActivity(intent)
     }
 
 
