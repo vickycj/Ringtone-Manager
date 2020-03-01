@@ -6,85 +6,167 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:background="@color/colorPrimaryDark">
 
-    <EditText
-            android:id="@+id/urlText"
+    <LinearLayout
+            android:id="@+id/home_parent"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="16dp"
-            android:textColor="@color/textColor"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:hint="Only MP3 URls"
-            tools:text="Test url" />
-
-    <Button
-            android:id="@+id/setRingtone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:background="@color/colorPrimary"
-            android:text="Download And Set Ringtone"
-            android:textColor="@color/textColor"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/urlText" />
-
-    <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="@dimen/DP_50"
-            android:layout_height="@dimen/DP_50"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="32dp"
-            android:src="@drawable/mp_image"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/setRingtone" />
-
-    <TextView
-            android:id="@+id/titleText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:includeFontPadding="false"
-            android:textColor="@color/textColor"
-            android:textSize="24sp"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.169"
-            app:layout_constraintStart_toEndOf="@+id/imageView"
-            app:layout_constraintTop_toTopOf="@+id/imageView"
-            app:layout_constraintVertical_bias="0.0"
-            tools:text="Song Name" />
-
-    <androidx.core.widget.ContentLoadingProgressBar
-            android:id="@+id/progressBar"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="16dp"
-            android:indeterminate="true"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/titleText" />
-
-
-    <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="64dp"
-            android:src="@drawable/ringtone"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" >
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/section1"
+                android:layout_weight="1"
+                android:background="@color/flat_color_1"
+                android:layout_width="match_parent"
+                android:layout_height="0dp">
+
+
+            <TextView
+                    android:id="@+id/section1_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginBottom="32dp"
+                    android:text="@string/section_1_title"
+                    android:textColor="@color/textColor"
+                    android:textSize="24sp"
+                    app:layout_constraintBottom_toTopOf="@+id/section1_subtitle"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                    android:id="@+id/section1_subtitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:text="@string/section_1_subtitle"
+                    android:textColor="@color/textColor"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/section1Subscription"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/section1Subscription"
+                    android:layout_width="@dimen/DP_32"
+                    android:layout_height="@dimen/DP_32"
+                    android:layout_marginEnd="16dp"
+                    android:src="@drawable/ic_add_white_24dp"
+                    android:layout_marginBottom="16dp"
+                    android:alpha="2"
+                    android:background="@color/colorPrimary"
+                    android:elevation="2dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/section2"
+                android:layout_weight="1"
+                android:background="@color/flat_color_4"
+                android:layout_width="match_parent"
+                android:layout_height="0dp">
+
+            <TextView
+                    android:id="@+id/section2_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginBottom="32dp"
+                    android:text="@string/section_2_title"
+                    android:textColor="@color/textColor"
+                    android:textSize="24sp"
+                    app:layout_constraintBottom_toTopOf="@+id/section2_subtitle"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                    android:id="@+id/section2_subtitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:text="@string/section_2_subtitle"
+                    android:textColor="@color/textColor"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/section2Subscription"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/section2Subscription"
+                    android:layout_width="@dimen/DP_32"
+                    android:layout_height="@dimen/DP_32"
+                    android:layout_marginEnd="16dp"
+                    android:src="@drawable/ic_add_white_24dp"
+                    android:layout_marginBottom="16dp"
+                    android:alpha="2"
+                    android:background="@color/colorPrimary"
+                    android:elevation="2dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/section3"
+                android:layout_weight="1"
+                android:background="@color/flat_color_2"
+                android:layout_width="match_parent"
+                android:layout_height="0dp">
+
+            <TextView
+                    android:id="@+id/section3_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginBottom="32dp"
+                    android:text="@string/section_3_title"
+                    android:textColor="@color/textColor"
+                    android:textSize="24sp"
+                    app:layout_constraintBottom_toTopOf="@+id/section3_subtitle"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                    android:id="@+id/section3_subtitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:text="@string/section_3_subtitle"
+                    android:textColor="@color/textColor"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/section3Subscription"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/section3Subscription"
+                    android:layout_width="@dimen/DP_32"
+                    android:layout_height="@dimen/DP_32"
+                    android:layout_marginEnd="16dp"
+                    android:src="@drawable/ic_add_white_24dp"
+                    android:layout_marginBottom="16dp"
+                    android:alpha="2"
+                    android:background="@color/colorPrimary"
+                    android:elevation="2dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

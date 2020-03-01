@@ -2,4 +2,11 @@
     <string name="app_name">Ringtone</string>
     <string name="work_done">Download Complete</string>
     <string name="work_done_new">Work Completed</string>
+    <string name="subscribe">Subscribe</string>
+    <string name="section_1_title">New releases</string>
+    <string name="section_1_subtitle">All new releases - back from the dead and others</string>
+    <string name="section_2_title">Devotional</string>
+    <string name="section_2_subtitle">All the way from sai baba to Jesus and allah</string>
+    <string name="section_3_title">Relaxing</string>
+    <string name="section_3_subtitle">F for fun and S for soul - collections of old hits, heart melting</string>
 </resources>
