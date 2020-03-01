@@ -21,7 +21,7 @@ class RingtoneSetter {
 
         val values = ContentValues()
         values.put(MediaStore.MediaColumns.DATA, k.absolutePath)
-        values.put(MediaStore.MediaColumns.TITLE, "Song Ringtone")
+        values.put(MediaStore.MediaColumns.TITLE, k.name)
         values.put(MediaStore.MediaColumns.SIZE, k.length())
         values.put(MediaStore.MediaColumns.MIME_TYPE, "audio/mp3")
         values.put(MediaStore.Audio.Media.ARTIST, "Madonna")
@@ -32,13 +32,9 @@ class RingtoneSetter {
 
 
         val uri: Uri = MediaStore.Audio.Media.getContentUriForPath(k.absolutePath)
-            context.contentResolver.delete(
-                uri,
-                MediaStore.MediaColumns.DATA + "=\"" + k.absolutePath + "\"",
-                null
-            )
 
-            val newUri = context.contentResolver.insert(uri, values)
+
+        val newUri = context.contentResolver.insert(uri, values)
 
         RingtoneManager.setActualDefaultRingtoneUri(
             context,
