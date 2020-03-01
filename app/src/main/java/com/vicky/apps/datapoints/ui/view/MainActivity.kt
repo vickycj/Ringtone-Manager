@@ -1,7 +1,6 @@
 package com.vicky.apps.datapoints.ui.view
 
 import android.Manifest
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
@@ -63,13 +62,18 @@ class MainActivity : BaseActivity() {
         section1Subscription.setOnClickListener {
            subscribeSection1()
         }
-        section1Subscription.setOnClickListener {
+        section2Subscription.setOnClickListener {
             subscribeSection2()
         }
-        section1Subscription.setOnClickListener {
+        section3Subscription.setOnClickListener {
             subscribeSection3()
         }
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        filePermission()
     }
 
 
@@ -93,7 +97,7 @@ class MainActivity : BaseActivity() {
         section2Subscription.setImageResource(R.drawable.ic_add_white_24dp)
         section3Subscription.setImageResource(R.drawable.ic_add_white_24dp)
 
-        checkPermissionAndLaunch()
+        StartOneTimeWorkManager()
     }
 
     private fun subscribeSection2(){
@@ -102,7 +106,7 @@ class MainActivity : BaseActivity() {
         section1Subscription.setImageResource(R.drawable.ic_add_white_24dp)
         section3Subscription.setImageResource(R.drawable.ic_add_white_24dp)
 
-        checkPermissionAndLaunch()
+        StartOneTimeWorkManager()
     }
 
     private fun subscribeSection3(){
@@ -111,7 +115,7 @@ class MainActivity : BaseActivity() {
         section1Subscription.setImageResource(R.drawable.ic_add_white_24dp)
         section2Subscription.setImageResource(R.drawable.ic_add_white_24dp)
 
-        checkPermissionAndLaunch()
+        StartOneTimeWorkManager()
     }
 
     private fun saveInSharedPref(i: Int) {
@@ -127,16 +131,17 @@ class MainActivity : BaseActivity() {
             openAndroidPermissionsMenu()
             return
         }
+    }
 
+    private fun filePermission(){
         runtimePermission.requestPermission(listOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
             object : RunTimePermission.PermissionCallback {
                 override fun onGranted() {
-
-                    StartOneTimeWorkManager()
+                    checkPermissionAndLaunch()
                 }
 
                 override fun onDenied() {
-                    //show message if not allow storage permission
+                    finish()
                 }
             })
     }
