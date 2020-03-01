@@ -1,22 +1,22 @@
 package com.vicky.apps.datapoints.ui.view
 
 import android.Manifest
-import android.app.PendingIntent.getActivity
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import androidx.work.*
+import com.vicky.apps.datapoints.R
+import com.vicky.apps.datapoints.base.AppConstants
 import com.vicky.apps.datapoints.base.AppConstants.PERIODIC_INTERVAL
 import com.vicky.apps.datapoints.base.AppConstants.PERMISION_REQUEST
-import com.vicky.apps.datapoints.base.AppConstants.URLFILE
 import com.vicky.apps.datapoints.base.BaseActivity
 import com.vicky.apps.datapoints.common.ViewModelProviderFactory
 import com.vicky.apps.datapoints.ui.DownLoadSongManager
@@ -57,15 +57,68 @@ class MainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(com.vicky.apps.datapoints.R.layout.activity_main)
+        setContentView(R.layout.activity_main)
         initializeValues()
-        progressBar.hide()
+        checkSavedValues()
+        section1Subscription.setOnClickListener {
+           subscribeSection1()
+        }
+        section1Subscription.setOnClickListener {
+            subscribeSection2()
+        }
+        section1Subscription.setOnClickListener {
+            subscribeSection3()
+        }
 
-        urlText.setText(URLFILE)
+    }
 
-       setRingtone.setOnClickListener {
-           checkPermissionAndLaunch()
-       }
+
+
+    private fun checkSavedValues(){
+
+        val value = applicationContext.getSharedPreferences(AppConstants.NAME,0)
+            .getInt(AppConstants.SHARED_PREF_SECTION, 0)
+        if(value > 0){
+            when (value){
+                AppConstants.SECTION_1 -> { subscribeSection1()}
+                AppConstants.SECTION_2 -> { subscribeSection2()}
+                AppConstants.SECTION_3 -> { subscribeSection3()}
+            }
+        }
+    }
+
+    private fun subscribeSection1(){
+        saveInSharedPref(AppConstants.SECTION_1)
+        section1Subscription.setImageResource(R.drawable.ic_check_white_24dp)
+        section2Subscription.setImageResource(R.drawable.ic_add_white_24dp)
+        section3Subscription.setImageResource(R.drawable.ic_add_white_24dp)
+
+        checkPermissionAndLaunch()
+    }
+
+    private fun subscribeSection2(){
+        saveInSharedPref(AppConstants.SECTION_2)
+        section2Subscription.setImageResource(R.drawable.ic_check_white_24dp)
+        section1Subscription.setImageResource(R.drawable.ic_add_white_24dp)
+        section3Subscription.setImageResource(R.drawable.ic_add_white_24dp)
+
+        checkPermissionAndLaunch()
+    }
+
+    private fun subscribeSection3(){
+        saveInSharedPref(AppConstants.SECTION_3)
+        section3Subscription.setImageResource(R.drawable.ic_check_white_24dp)
+        section1Subscription.setImageResource(R.drawable.ic_add_white_24dp)
+        section2Subscription.setImageResource(R.drawable.ic_add_white_24dp)
+
+        checkPermissionAndLaunch()
+    }
+
+    private fun saveInSharedPref(i: Int) {
+        with (applicationContext.getSharedPreferences(AppConstants.NAME,0).edit()) {
+            putInt(AppConstants.SHARED_PREF_SECTION, i)
+            commit()
+        }
     }
 
     private fun checkPermissionAndLaunch() {
@@ -115,13 +168,12 @@ class MainActivity : BaseActivity() {
 
 
     private fun failureCallback(){
-        Toast.makeText(this,"API failed",Toast.LENGTH_LONG).show()
+      //  Toast.makeText(this,"API failed",Toast.LENGTH_LONG).show()
     }
 
 
     private fun StartOneTimeWorkManager() {
 
-        URLFILE = urlText.text.toString()
         val constraints = Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build()
         val task = OneTimeWorkRequest.Builder(DownLoadSongManager::class.java).setConstraints(constraints).build()
         workManager.enqueue(task)
@@ -131,13 +183,13 @@ class MainActivity : BaseActivity() {
                 it?.let {
 
                     if (it.state == WorkInfo.State.RUNNING) {
-                        loaderShow(true)
+
 
                     }else
                         if (it.state.isFinished) {
 
-                            Toast.makeText(this@MainActivity, "Download Complete", Toast.LENGTH_SHORT).show()
-                            loaderShow(false)
+                           // Toast.makeText(this@MainActivity, "Download Complete", Toast.LENGTH_SHORT).show()
+
                         }
                 }
             })
@@ -145,7 +197,7 @@ class MainActivity : BaseActivity() {
 
     // Every periodic [PERIODIC_INTERVAL] interval work execute
     private fun StartPeriodicWorkManager() {
-        loaderShow(true)
+
         val periodicWorkRequest = PeriodicWorkRequest.Builder(
             DownLoadSongManager::class.java,
             PERIODIC_INTERVAL,
@@ -163,27 +215,12 @@ class MainActivity : BaseActivity() {
             .observe(this@MainActivity, Observer {
                 it?.let {
                     if (it.state == WorkInfo.State.ENQUEUED) {
-
-                        loaderShow(false)
-                        Toast.makeText(this@MainActivity, "Download Complete", Toast.LENGTH_SHORT).show()
+                        //Toast.makeText(this@MainActivity, "Download Complete", Toast.LENGTH_SHORT).show()
                     }
                 }
             })
     }
 
-    /**
-     * Loader visibility
-     */
-    private fun loaderShow(flag: Boolean) {
-        when (flag) {
-            true ->{ progressBar.show()
-                titleText.text = "Downloading File"
-            }
-            false ->{ progressBar.hide()
-                titleText.text = "Ringtone Set"
-            }
-        }
-    }
 
     /**
      * Request permission result pass to RuntimePermission.kt
@@ -202,7 +239,7 @@ class MainActivity : BaseActivity() {
             if (retVal) {
                // Toast.makeText(this, "Write allowed :-)", Toast.LENGTH_LONG).show()
             } else {
-                Toast.makeText(this, "Write not allowed :-)", Toast.LENGTH_LONG).show()
+               // Toast.makeText(this, "Write not allowed :-)", Toast.LENGTH_LONG).show()
             }
         }
         return retVal

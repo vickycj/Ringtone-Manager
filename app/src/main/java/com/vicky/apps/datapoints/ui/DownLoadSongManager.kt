@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Environment
 import androidx.work.Worker
 import androidx.work.WorkerParameters
+import com.vicky.apps.datapoints.base.AppConstants
 import com.vicky.apps.datapoints.base.AppConstants.URLFILE
 import java.io.BufferedInputStream
 import java.io.FileOutputStream
@@ -22,7 +23,19 @@ class DownLoadSongManager(context: Context, workerParams: WorkerParameters) : Wo
 
     override fun doWork(): Result {
         try {
-            val url = URL(URLFILE)
+
+            val value = applicationContext.getSharedPreferences(AppConstants.NAME,0)
+                .getInt(AppConstants.SHARED_PREF_SECTION, 0)
+            var url = URL(URLFILE)
+            if(value > 0){
+                when (value){
+                    AppConstants.SECTION_1 -> { url = URL(AppConstants.SUBSCRIBTION_1_URL)}
+                    AppConstants.SECTION_2 -> { url = URL(AppConstants.SUBSCRIBTION_2_URL)}
+                    AppConstants.SECTION_3 -> { url = URL(AppConstants.SUBSCRIBTION_3_URL)}
+                }
+            }
+
+
             val conection = url.openConnection()
             conection.connect()
             // getting file length
