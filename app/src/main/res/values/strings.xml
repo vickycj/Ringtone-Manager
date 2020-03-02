@@ -17,4 +17,15 @@
     <string name="title_activity_splash">SplashActivity</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="minutes_served">Minutes Served</string>
+    <string name="minutes_value">229</string>
+    <string name="money_earned">Money Earned</string>
+    <string name="money_value">490</string>
+    <string name="inr">rs</string>
+    <string name="min">min</string>
+    <string name="scratch_cards">Scratch Cards</string>
+    <string name="_50rs">50rs</string>
+    <string name="_110rs">110rs</string>
+    <string name="_40rs">40rs</string>
+    <string name="_77rs">77rs</string>
 </resources>
