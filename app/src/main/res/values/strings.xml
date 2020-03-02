@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Ringtone</string>
+    <string name="app_name">Music Ads</string>
     <string name="work_done">Download Complete</string>
     <string name="work_done_new">Work Completed</string>
     <string name="subscribe">Subscribe</string>
@@ -13,4 +13,8 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Categories</string>
     <string name="title_notifications">Rewards</string>
+
+    <string name="title_activity_splash">SplashActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>

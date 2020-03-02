@@ -15,4 +15,6 @@
     <color name="flat_color_5">#1abc9c</color>
     <color name="flat_color_6">#7f8c8d</color>
 
+    <color name="black_overlay">#66000000</color>
+
 </resources>
