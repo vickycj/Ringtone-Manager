@@ -9,4 +9,8 @@
     <string name="section_2_subtitle">"Bad news travels fast. Good news takes the scenic route."</string>
     <string name="section_3_title">Entertainment/Movies</string>
     <string name="section_3_subtitle">“No good movie is too long and no bad movie is short enough.”</string>
+    <string name="title_activity_dashboard">@string/app_name</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Categories</string>
+    <string name="title_notifications">Rewards</string>
 </resources>
