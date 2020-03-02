@@ -33,7 +33,7 @@
                     android:layout_marginBottom="32dp"
                     android:text="@string/section_1_title"
                     android:textColor="@color/textColor"
-                    android:textSize="24sp"
+                    android:textSize="28sp"
                     app:layout_constraintBottom_toTopOf="@+id/section1_subtitle"
                     app:layout_constraintStart_toStartOf="parent" />
 
@@ -57,7 +57,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
                     android:layout_marginEnd="16dp"
-                    app:fabSize="mini"
+                    app:fabSize="normal"
                     android:layout_marginBottom="16dp"
                     android:background="#ff0000"
                     android:src="@drawable/ic_add_white_24dp"
@@ -83,7 +83,7 @@
                     android:layout_marginBottom="32dp"
                     android:text="@string/section_2_title"
                     android:textColor="@color/textColor"
-                    android:textSize="24sp"
+                    android:textSize="28sp"
                     app:layout_constraintBottom_toTopOf="@+id/section2_subtitle"
                     app:layout_constraintStart_toStartOf="parent" />
 
@@ -108,7 +108,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
                     android:layout_marginEnd="16dp"
-                    app:fabSize="mini"
+                    app:fabSize="normal"
                     android:layout_marginBottom="16dp"
                     android:background="#ff0000"
                     android:src="@drawable/ic_add_white_24dp"
@@ -134,7 +134,7 @@
                     android:layout_marginBottom="32dp"
                     android:text="@string/section_3_title"
                     android:textColor="@color/textColor"
-                    android:textSize="24sp"
+                    android:textSize="28sp"
                     app:layout_constraintBottom_toTopOf="@+id/section3_subtitle"
                     app:layout_constraintStart_toStartOf="parent" />
 
@@ -160,7 +160,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
                     android:layout_marginEnd="16dp"
-                    app:fabSize="mini"
+                    app:fabSize="normal"
                     android:layout_marginBottom="16dp"
                     android:background="#ff0000"
                     android:src="@drawable/ic_add_white_24dp"
