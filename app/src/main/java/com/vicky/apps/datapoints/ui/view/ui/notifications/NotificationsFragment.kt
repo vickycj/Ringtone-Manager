@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.vicky.apps.datapoints.ui.view.R
+import com.vicky.apps.datapoints.R
 
 class NotificationsFragment : Fragment() {
 

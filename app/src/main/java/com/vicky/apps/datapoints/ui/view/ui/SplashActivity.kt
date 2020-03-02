@@ -1,17 +1,21 @@
 package com.vicky.apps.datapoints.ui.view.ui
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import com.vicky.apps.datapoints.R
+import com.vicky.apps.datapoints.ui.view.DashboardActivity
 import kotlinx.android.synthetic.main.activity_splash.*
+
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
  */
 class SplashActivity : AppCompatActivity() {
+    private val SPLASH_DISPLAY_LENGTH: Long = 2000
     private val mHideHandler = Handler()
     private val mHidePart2Runnable = Runnable {
         // Delayed removal of status and navigation bar
@@ -30,7 +34,7 @@ class SplashActivity : AppCompatActivity() {
     private val mShowPart2Runnable = Runnable {
         // Delayed display of UI elements
         supportActionBar?.show()
-        fullscreen_content_controls.visibility = View.VISIBLE
+
     }
     private var mVisible: Boolean = false
     private val mHideRunnable = Runnable { hide() }
@@ -49,18 +53,26 @@ class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.activity_splash)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        setContentView(
+            R.layout.activity_splash)
+        supportActionBar?.hide()
 
-        mVisible = true
+        //mVisible = true
 
         // Set up the user interaction to manually show or hide the system UI.
-        fullscreen_content.setOnClickListener { toggle() }
+       // fullscreen_content.setOnClickListener { toggle() }
 
         // Upon interacting with UI controls, delay any scheduled hide()
         // operations to prevent the jarring behavior of controls going away
         // while interacting with the UI.
-        dummy_button.setOnTouchListener(mDelayHideTouchListener)
+
+        Handler().postDelayed({
+            /* Create an Intent that will start the Menu-Activity. */
+            val mainIntent = Intent(this, DashboardActivity::class.java)
+            this.startActivity(mainIntent)
+            this.finish()
+        }, SPLASH_DISPLAY_LENGTH)
+
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
@@ -69,7 +81,7 @@ class SplashActivity : AppCompatActivity() {
         // Trigger the initial hide() shortly after the activity has been
         // created, to briefly hint to the user that UI controls
         // are available.
-        delayedHide(100)
+       // delayedHide(100)
     }
 
     private fun toggle() {
@@ -82,25 +94,25 @@ class SplashActivity : AppCompatActivity() {
 
     private fun hide() {
         // Hide UI first
-        supportActionBar?.hide()
-        fullscreen_content_controls.visibility = View.GONE
+       /* supportActionBar?.hide()
+
         mVisible = false
 
         // Schedule a runnable to remove the status and navigation bar after a delay
         mHideHandler.removeCallbacks(mShowPart2Runnable)
-        mHideHandler.postDelayed(mHidePart2Runnable, UI_ANIMATION_DELAY.toLong())
+        mHideHandler.postDelayed(mHidePart2Runnable, UI_ANIMATION_DELAY.toLong())*/
     }
 
     private fun show() {
         // Show the system bar
-        fullscreen_content.systemUiVisibility =
+       /* fullscreen_content.systemUiVisibility =
             View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
                     View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
         mVisible = true
 
         // Schedule a runnable to display UI elements after a delay
         mHideHandler.removeCallbacks(mHidePart2Runnable)
-        mHideHandler.postDelayed(mShowPart2Runnable, UI_ANIMATION_DELAY.toLong())
+        mHideHandler.postDelayed(mShowPart2Runnable, UI_ANIMATION_DELAY.toLong())*/
     }
 
     /**
