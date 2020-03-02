@@ -54,6 +54,7 @@
                     android:layout_marginEnd="16dp"
                     app:fabSize="normal"
                     android:layout_marginBottom="16dp"
+                    android:backgroundTint="@color/colorPrimaryDark"
                     android:background="#ff0000"
                     android:src="@drawable/ic_add_white_24dp"
                     app:layout_anchor="@id/section1"
@@ -66,7 +67,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/section2"
                 android:layout_weight="1"
-                android:background="@color/flat_color_4"
+                android:background="@color/flat_color_2"
                 android:layout_width="match_parent"
                 android:layout_height="0dp">
 
@@ -103,6 +104,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
                     android:layout_marginEnd="16dp"
+                    android:backgroundTint="@color/colorPrimaryDark"
                     app:fabSize="normal"
                     android:layout_marginBottom="16dp"
                     android:background="#ff0000"
@@ -117,7 +119,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/section3"
                 android:layout_weight="1"
-                android:background="@color/flat_color_2"
+                android:background="@color/flat_color_3"
                 android:layout_width="match_parent"
                 android:layout_height="0dp">
 
@@ -152,12 +154,13 @@
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                     android:id="@+id/section3Subscription"
                     android:layout_width="wrap_content"
+                    android:backgroundTint="@color/colorPrimaryDark"
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
                     android:layout_marginEnd="16dp"
                     app:fabSize="normal"
                     android:layout_marginBottom="16dp"
-                    android:background="#ff0000"
+                    android:background="@color/colorPrimaryDark"
                     android:src="@drawable/ic_add_white_24dp"
                     app:layout_anchor="@id/section3"
                     app:layout_anchorGravity="bottom|right|end"

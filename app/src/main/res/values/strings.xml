@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Ringtone</string>
+    <string name="app_name">MobiAd</string>
     <string name="work_done">Download Complete</string>
     <string name="work_done_new">Work Completed</string>
     <string name="subscribe">Subscribe</string>
@@ -21,11 +21,11 @@
     <string name="minutes_value">229</string>
     <string name="money_earned">Money Earned</string>
     <string name="money_value">490</string>
-    <string name="inr">rs</string>
+    <string name="inr">rupees</string>
     <string name="min">min</string>
     <string name="scratch_cards">Scratch Cards</string>
-    <string name="_50rs">50rs</string>
-    <string name="_110rs">110rs</string>
-    <string name="_40rs">40rs</string>
-    <string name="_77rs">77rs</string>
+    <string name="_50rs">₹ 50</string>
+    <string name="_110rs">₹ 110</string>
+    <string name="_40rs">₹ 40</string>
+    <string name="_77rs">₹ 77</string>
 </resources>
