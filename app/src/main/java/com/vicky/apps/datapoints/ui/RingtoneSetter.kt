@@ -33,10 +33,10 @@ class RingtoneSetter {
 
             val uri: Uri = MediaStore.Audio.Media.getContentUriForPath(k.absolutePath)
 
-            context.contentResolver.delete(
+            /*context.contentResolver.delete(
                 uri, MediaStore.MediaColumns.DATA + "=\"" + k.absolutePath + "\"",
                 null
-            )
+            )*/
             val newUri = context.contentResolver.insert(uri, values)
 
             RingtoneManager.setActualDefaultRingtoneUri(
