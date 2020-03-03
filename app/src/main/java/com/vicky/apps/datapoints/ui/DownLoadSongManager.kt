@@ -24,11 +24,14 @@ class DownLoadSongManager(context: Context, workerParams: WorkerParameters) : Wo
     override fun doWork(): Result {
         try {
 
-            val value = applicationContext.getSharedPreferences(AppConstants.NAME,0)
-                .getInt(AppConstants.SHARED_PREF_SECTION, 0)
+            val inputVal = inputData.getInt(AppConstants.INPUT_KEY, 0)
+
+            val path = Environment.getExternalStorageDirectory().absolutePath
+
+
             var url = URL(URLFILE)
-            if(value > 0){
-                when (value){
+            if(inputVal > 0){
+                when (inputVal){
                     AppConstants.SECTION_1 -> { url = URL(AppConstants.SUBSCRIBTION_1_URL)}
                     AppConstants.SECTION_2 -> { url = URL(AppConstants.SUBSCRIBTION_2_URL)}
                     AppConstants.SECTION_3 -> { url = URL(AppConstants.SUBSCRIBTION_3_URL)}
@@ -44,7 +47,7 @@ class DownLoadSongManager(context: Context, workerParams: WorkerParameters) : Wo
             val input = BufferedInputStream(url.openStream(), 8192)
 
             // Output stream to write file
-            val output = FileOutputStream(Environment.getExternalStorageDirectory().absolutePath+"/Ringtones"+"/songringtone.mp3")
+            val output = FileOutputStream("$path/Ringtones/songringtone$inputVal.mp3")
 
             val data = ByteArray(1024)
 
@@ -64,7 +67,7 @@ class DownLoadSongManager(context: Context, workerParams: WorkerParameters) : Wo
             input.close()
 
             ringtoneSetter.setRingtone(applicationContext,
-                Environment.getExternalStorageDirectory().absolutePath+"/Ringtones","songringtone.mp3")
+                "$path/Ringtones","songringtone$inputVal.mp3")
 
         } catch (e: Exception) {
             return Result.retry()

@@ -81,7 +81,7 @@ class DashboardFragment : Fragment() {
         section2Subscription.setImageResource(R.drawable.ic_add_white_24dp)
         section3Subscription.setImageResource(R.drawable.ic_add_white_24dp)
 
-        StartOneTimeWorkManager()
+        StartOneTimeWorkManager(AppConstants.SECTION_1)
     }
 
     private fun subscribeSection2(){
@@ -90,7 +90,7 @@ class DashboardFragment : Fragment() {
         section1Subscription.setImageResource(R.drawable.ic_add_white_24dp)
         section3Subscription.setImageResource(R.drawable.ic_add_white_24dp)
 
-        StartOneTimeWorkManager()
+        StartOneTimeWorkManager(AppConstants.SECTION_2)
     }
 
     private fun subscribeSection3(){
@@ -99,7 +99,7 @@ class DashboardFragment : Fragment() {
         section1Subscription.setImageResource(R.drawable.ic_add_white_24dp)
         section2Subscription.setImageResource(R.drawable.ic_add_white_24dp)
 
-        StartOneTimeWorkManager()
+        StartOneTimeWorkManager(AppConstants.SECTION_3)
     }
 
     private fun saveInSharedPref(i: Int) {
@@ -109,10 +109,18 @@ class DashboardFragment : Fragment() {
         }
     }
 
-    private fun StartOneTimeWorkManager() {
+    fun createInputData(i :Int): Data {
+        return Data.Builder()
+            .putInt(AppConstants.INPUT_KEY, i)
+            .build()
+    }
+
+    private fun StartOneTimeWorkManager(i : Int) {
 
         val constraints = Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build()
-        val task = OneTimeWorkRequest.Builder(DownLoadSongManager::class.java).setConstraints(constraints).build()
+        val task = OneTimeWorkRequest.Builder(DownLoadSongManager::class.java).setConstraints(constraints).
+            setInputData(createInputData(i))
+            .build()
         workManager.enqueue(task)
 
         workManager.getWorkInfoByIdLiveData(task.id)

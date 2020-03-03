@@ -2,6 +2,7 @@ package com.vicky.apps.datapoints.base
 
 object AppConstants {
 
+    const val INPUT_KEY: String = "KEY_IN"
     const val NAME ="PREF"
     const val PERMISION_REQUEST = 100
     const val PERIODIC_INTERVAL = 15L

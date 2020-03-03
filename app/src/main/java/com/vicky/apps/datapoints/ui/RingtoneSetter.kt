@@ -5,45 +5,48 @@ import android.content.Context
 import android.media.RingtoneManager
 import android.net.Uri
 import android.provider.MediaStore
+import android.util.Log
 import android.widget.Toast
 import java.io.File
 
 
 class RingtoneSetter {
 
-    fun setRingtone (context: Context, path: String, name: String) {
+    fun setRingtone(context: Context, path: String, name: String) {
 
         try {
 
-
-        val k = File(path, name) // path is a file to /sdcard/media/ringtone
-
-
-        val values = ContentValues()
-        values.put(MediaStore.MediaColumns.DATA, k.absolutePath)
-        values.put(MediaStore.MediaColumns.TITLE, k.name)
-        values.put(MediaStore.MediaColumns.SIZE, k.length())
-        values.put(MediaStore.MediaColumns.MIME_TYPE, "audio/mp3")
-        values.put(MediaStore.Audio.Media.ARTIST, "Madonna")
-        values.put(MediaStore.Audio.Media.IS_RINGTONE, true)
-        values.put(MediaStore.Audio.Media.IS_NOTIFICATION, false)
-        values.put(MediaStore.Audio.Media.IS_ALARM, false)
-        values.put(MediaStore.Audio.Media.IS_MUSIC, true)
+            val k = File(path, name) // path is a file to /sdcard/media/ringtone
 
 
-        val uri: Uri = MediaStore.Audio.Media.getContentUriForPath(k.absolutePath)
+            val values = ContentValues()
+            values.put(MediaStore.MediaColumns.DATA, k.absolutePath)
+            values.put(MediaStore.MediaColumns.TITLE, k.name)
+            values.put(MediaStore.MediaColumns.SIZE, k.length())
+            values.put(MediaStore.MediaColumns.MIME_TYPE, "audio/mp3")
+            values.put(MediaStore.Audio.Media.ARTIST, "Madonna")
+            values.put(MediaStore.Audio.Media.IS_RINGTONE, true)
+            values.put(MediaStore.Audio.Media.IS_NOTIFICATION, false)
+            values.put(MediaStore.Audio.Media.IS_ALARM, false)
+            values.put(MediaStore.Audio.Media.IS_MUSIC, true)
 
 
-        val newUri = context.contentResolver.insert(uri, values)
+            val uri: Uri = MediaStore.Audio.Media.getContentUriForPath(k.absolutePath)
 
-        RingtoneManager.setActualDefaultRingtoneUri(
-            context,
-            RingtoneManager.TYPE_RINGTONE,
-            newUri
-        )
+            context.contentResolver.delete(
+                uri, MediaStore.MediaColumns.DATA + "=\"" + k.absolutePath + "\"",
+                null
+            )
+            val newUri = context.contentResolver.insert(uri, values)
 
-        }catch (e: Exception) {
-            Toast.makeText(context,"Song ringtone Failed",Toast.LENGTH_LONG).show()
+            RingtoneManager.setActualDefaultRingtoneUri(
+                context,
+                RingtoneManager.TYPE_RINGTONE,
+                newUri
+            )
+
+        } catch (e: Exception) {
+            Log.e("1","Ringtone setting faled")
         }
 
     }
