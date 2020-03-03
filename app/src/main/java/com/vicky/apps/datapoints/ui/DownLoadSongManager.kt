@@ -7,6 +7,7 @@ import androidx.work.WorkerParameters
 import com.vicky.apps.datapoints.base.AppConstants
 import com.vicky.apps.datapoints.base.AppConstants.URLFILE
 import java.io.BufferedInputStream
+import java.io.File
 import java.io.FileOutputStream
 import java.net.URL
 
@@ -28,6 +29,7 @@ class DownLoadSongManager(context: Context, workerParams: WorkerParameters) : Wo
 
             val path = Environment.getExternalStorageDirectory().absolutePath
 
+            val name = "songringtone$inputVal.mp3"
 
             var url = URL(URLFILE)
             if(inputVal > 0){
@@ -38,6 +40,11 @@ class DownLoadSongManager(context: Context, workerParams: WorkerParameters) : Wo
                 }
             }
 
+            val file = File(path, name)
+
+            if(file.exists()){
+                file.delete()
+            }
 
             val conection = url.openConnection()
             conection.connect()
@@ -47,7 +54,7 @@ class DownLoadSongManager(context: Context, workerParams: WorkerParameters) : Wo
             val input = BufferedInputStream(url.openStream(), 8192)
 
             // Output stream to write file
-            val output = FileOutputStream("$path/Ringtones/songringtone$inputVal.mp3")
+            val output = FileOutputStream("$path/Ringtones/$name")
 
             val data = ByteArray(1024)
 
@@ -67,7 +74,7 @@ class DownLoadSongManager(context: Context, workerParams: WorkerParameters) : Wo
             input.close()
 
             ringtoneSetter.setRingtone(applicationContext,
-                "$path/Ringtones","songringtone$inputVal.mp3")
+                "$path/Ringtones",name)
 
         } catch (e: Exception) {
             return Result.retry()

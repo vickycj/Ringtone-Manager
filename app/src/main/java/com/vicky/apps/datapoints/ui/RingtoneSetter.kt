@@ -6,7 +6,6 @@ import android.media.RingtoneManager
 import android.net.Uri
 import android.provider.MediaStore
 import android.util.Log
-import android.widget.Toast
 import java.io.File
 
 
@@ -37,7 +36,14 @@ class RingtoneSetter {
                 uri, MediaStore.MediaColumns.DATA + "=\"" + k.absolutePath + "\"",
                 null
             )*/
-            val newUri = context.contentResolver.insert(uri, values)
+
+
+            val newUri : Uri?
+
+            newUri =
+                context.contentResolver.insert(uri, values)
+
+
 
             RingtoneManager.setActualDefaultRingtoneUri(
                 context,
