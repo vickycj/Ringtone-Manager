@@ -18,7 +18,15 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-
+        <activity
+                android:name=".ui.SettingsActivity"
+                android:label="@string/title_activity_settings"
+                android:parentActivityName=".ui.view.DashboardActivity"
+                android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value="com.vicky.apps.datapoints.ui.view.DashboardActivity" />
+        </activity>
         <activity
                 android:name=".ui.view.ui.SplashActivity"
                 android:screenOrientation="portrait"
@@ -29,11 +37,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
                 android:name=".ui.view.DashboardActivity"
                 android:label="@string/title_activity_dashboard" />
-
 
         <meta-data
                 android:name="preloaded_fonts"

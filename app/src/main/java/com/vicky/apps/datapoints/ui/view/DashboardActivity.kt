@@ -7,6 +7,9 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import androidx.annotation.RequiresApi
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
@@ -17,6 +20,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.vicky.apps.datapoints.R
 import com.vicky.apps.datapoints.base.AppConstants
 import com.vicky.apps.datapoints.ui.RunTimePermission
+import com.vicky.apps.datapoints.ui.SettingsActivity
 
 class DashboardActivity : AppCompatActivity() {
 
@@ -97,5 +101,18 @@ class DashboardActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        getMenuInflater().inflate(R.menu.home_menu, menu)
+        return true;
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.settings -> {
+                startActivity(Intent(this, SettingsActivity::class.java))
+            }
+        }
+        return true
+    }
 
 }
