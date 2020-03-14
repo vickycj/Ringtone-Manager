@@ -1,22 +1,46 @@
 package com.vicky.apps.datapoints.ui.view.ui.home
 
+import android.media.AudioManager
+import android.media.MediaPlayer
+import android.media.Ringtone
+import android.media.RingtoneManager
+import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.text.TextUtils
-import android.view.*
+import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.room.util.StringUtil
 import androidx.work.*
+import com.sinch.android.rtc.PushPair
+import com.sinch.android.rtc.Sinch
+import com.sinch.android.rtc.SinchClient
+import com.sinch.android.rtc.calling.Call
+import com.sinch.android.rtc.calling.CallClient
+import com.sinch.android.rtc.calling.CallClientListener
+import com.sinch.android.rtc.calling.CallListener
 import com.vicky.apps.datapoints.R
 import com.vicky.apps.datapoints.base.AppConstants
 import com.vicky.apps.datapoints.ui.DownLoadSongManager
 import kotlinx.android.synthetic.main.fragment_home.*
+import org.webrtc.ContextUtils.getApplicationContext
 import java.io.File
 
 
 class HomeFragment : Fragment() {
+
+    private val APP_KEY = "d18fb872-e664-4cf6-98c5-7c784b4510cf"
+    private val APP_SECRET = "FtApuOdEZ0C9VVWfcel/4g=="
+    private val ENVIRONMENT = "sandbox.sinch.com"
+
+    private var call: Call? = null
+    private var sinchClient: SinchClient? = null
+
 
     private lateinit var homeViewModel: HomeViewModel
     val workManager = WorkManager.getInstance()
@@ -39,9 +63,8 @@ class HomeFragment : Fragment() {
         return root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
         checkValues()
 
         contact1Call.setOnClickListener {
@@ -54,18 +77,48 @@ class HomeFragment : Fragment() {
         contact3Call.setOnClickListener {
             callClicked(3)
         }
+
+        answerButton.setOnClickListener {
+            answerButtonClicked()
+        }
+
+        rejectButton.setOnClickListener {
+            rejectButtonClicked()
+        }
+    }
+
+    private fun rejectButtonClicked() {
+        call?.hangup()
+        call = null
+        showContacts()
+
+    }
+
+    private fun answerButtonClicked() {
+        call?.addCallListener(SinchCallListener())
+        call?.answer()
     }
 
     private fun callClicked(i: Int) {
         when (i) {
             1 -> {
+                if (call == null) {
+                    call = sinchClient?.callClient?.callUser(contact1)
+                    call?.addCallListener(SinchCallListener())
+                }
 
             }
             2 -> {
-
+                if (call == null) {
+                    call = sinchClient?.callClient?.callUser(contact2)
+                    call?.addCallListener(SinchCallListener())
+                }
             }
             3 -> {
-
+                if (call == null) {
+                    call = sinchClient?.callClient?.callUser(contact3)
+                     call?.addCallListener(SinchCallListener())
+            }
             }
         }
     }
@@ -75,7 +128,6 @@ class HomeFragment : Fragment() {
         val path = Environment.getExternalStorageDirectory().absolutePath + "/Ringtones"
 
         val name = "songringtone4.mp3"
-
         val file = File(path, name)
 
         if(!file.exists()){
@@ -99,10 +151,33 @@ class HomeFragment : Fragment() {
             contact2Name.text = contact2
             contact3Name.text = contact3
 
-            showContacts()
+            try {
+                initializeSinch()
+                showContacts()
+            }catch (e: java.lang.Exception) {
+                Log.e("Exception","dsds")
+            }
+
         } else {
             showEmptyPage()
         }
+    }
+
+    private fun initializeSinch() {
+
+        sinchClient = Sinch.getSinchClientBuilder()
+            .context(activity)
+            .userId(deviceName)
+            .applicationKey(APP_KEY)
+            .applicationSecret(APP_SECRET)
+            .environmentHost(ENVIRONMENT)
+            .build()
+
+        sinchClient?.setSupportCalling(true)
+        sinchClient?.startListeningOnActiveConnection()
+        sinchClient?.start()
+
+        sinchClient?.callClient?.addCallClientListener(SinchCallClientListener())
     }
 
     fun readFromSavedData(key: String) : String {
@@ -160,6 +235,72 @@ class HomeFragment : Fragment() {
             .putInt(AppConstants.INPUT_KEY, i)
             .putBoolean(AppConstants.DOWNLOAD_REQUIRED, true)
             .build()
+    }
+
+    private inner class SinchCallListener : CallListener {
+
+
+
+        override fun onCallEnded(endedCall: Call) {
+            call = null
+            val a = endedCall.details.error
+            showContacts()
+            activity?.volumeControlStream = AudioManager.USE_DEFAULT_STREAM_TYPE
+        }
+
+        override fun onCallEstablished(establishedCall: Call) {
+            callerText.text = "Connected"
+            activity?.volumeControlStream = AudioManager.STREAM_VOICE_CALL
+        }
+
+        override fun onCallProgressing(progressingCall: Call) {
+            val path = Environment.getExternalStorageDirectory().absolutePath + "/Ringtones"
+
+            val name = "songringtone4.mp3"
+            audioPlayer(path,name, AudioManager.STREAM_VOICE_CALL)
+        }
+
+        override fun onShouldSendPushNotification(
+            call: Call,
+            pushPairs: List<PushPair>
+        ) {
+        }
+    }
+
+    private inner class SinchCallClientListener :
+        CallClientListener {
+        override fun onIncomingCall(
+            callClient: CallClient,
+            incomingCall: Call
+        ) {
+            playRingtone()
+            showIncomingCall()
+            callerText.text = "Incoming call"
+            call = incomingCall
+            Toast.makeText(activity, "incoming call", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    fun playRingtone() {
+        val notification: Uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+        val r: Ringtone = RingtoneManager.getRingtone(activity?.applicationContext, notification)
+        r.play()
+
+    }
+    fun audioPlayer(path: String, fileName: String, type: Int) {
+        //set up MediaPlayer
+        val mp = MediaPlayer()
+        try {
+            mp.setAudioStreamType(type)
+            mp.setDataSource(path + File.separator + fileName)
+            mp.setOnCompletionListener { // TODO Auto-generated method stub
+
+            }
+            mp.prepare()
+            mp.start()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
 

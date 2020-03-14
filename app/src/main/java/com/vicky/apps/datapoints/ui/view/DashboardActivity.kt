@@ -2,6 +2,7 @@ package com.vicky.apps.datapoints.ui.view
 
 import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -13,6 +14,8 @@ import android.view.MenuItem
 import androidx.annotation.RequiresApi
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -42,7 +45,6 @@ class DashboardActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
-
     }
 
     override fun onResume() {
@@ -51,7 +53,7 @@ class DashboardActivity : AppCompatActivity() {
     }
 
     private fun filePermission(){
-        runtimePermission.requestPermission(listOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+        runtimePermission.requestPermission(listOf(Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_PHONE_STATE,Manifest.permission.RECORD_AUDIO),
             object : RunTimePermission.PermissionCallback {
                 override fun onGranted() {
                     checkPermissionAndLaunch()

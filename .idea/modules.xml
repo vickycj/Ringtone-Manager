@@ -6,6 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/Ringtone-Manager.iml" filepath="$PROJECT_DIR$/Ringtone-Manager.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/Ringtone-Manager-app.iml" filepath="$PROJECT_DIR$/app/Ringtone-Manager-app.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sinch-android-rtc-3.17.1/sinch-android-rtc-3.17.1.iml" filepath="$PROJECT_DIR$/sinch-android-rtc-3.17.1/sinch-android-rtc-3.17.1.iml" />
     </modules>
   </component>
 </project>
