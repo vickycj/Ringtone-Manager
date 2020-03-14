@@ -2,24 +2,20 @@ package com.vicky.apps.datapoints.ui.view
 
 import android.Manifest
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
 import android.view.Menu
-import android.view.MenuInflater
 import android.view.MenuItem
 import androidx.annotation.RequiresApi
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.vicky.apps.datapoints.R
 import com.vicky.apps.datapoints.base.AppConstants
 import com.vicky.apps.datapoints.ui.RunTimePermission
@@ -53,7 +49,10 @@ class DashboardActivity : AppCompatActivity() {
     }
 
     private fun filePermission(){
-        runtimePermission.requestPermission(listOf(Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_PHONE_STATE,Manifest.permission.RECORD_AUDIO),
+        runtimePermission.requestPermission(listOf(Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.READ_PHONE_STATE,
+            Manifest.permission.RECORD_AUDIO),
             object : RunTimePermission.PermissionCallback {
                 override fun onGranted() {
                     checkPermissionAndLaunch()

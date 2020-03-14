@@ -49,7 +49,7 @@ class HomeFragment : Fragment() {
     private var contact2 = ""
     private var contact3 = ""
     private var deviceName = ""
-
+    var mp = MediaPlayer()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -90,13 +90,16 @@ class HomeFragment : Fragment() {
     private fun rejectButtonClicked() {
         call?.hangup()
         call = null
+        mp.stop()
+        mp.reset()
         showContacts()
 
     }
 
     private fun answerButtonClicked() {
-        call?.addCallListener(SinchCallListener())
         call?.answer()
+        mp.stop()
+        mp.reset()
     }
 
     private fun callClicked(i: Int) {
@@ -105,6 +108,7 @@ class HomeFragment : Fragment() {
                 if (call == null) {
                     call = sinchClient?.callClient?.callUser(contact1)
                     call?.addCallListener(SinchCallListener())
+                    callerText.text = "Calling $contact1"
                 }
 
             }
@@ -112,12 +116,14 @@ class HomeFragment : Fragment() {
                 if (call == null) {
                     call = sinchClient?.callClient?.callUser(contact2)
                     call?.addCallListener(SinchCallListener())
+                    callerText.text = "Calling $contact2"
                 }
             }
             3 -> {
                 if (call == null) {
                     call = sinchClient?.callClient?.callUser(contact3)
                      call?.addCallListener(SinchCallListener())
+                    callerText.text = "Calling $contact3"
             }
             }
         }
@@ -243,6 +249,8 @@ class HomeFragment : Fragment() {
 
         override fun onCallEnded(endedCall: Call) {
             call = null
+            mp.stop()
+            mp.reset()
             val a = endedCall.details.error
             showContacts()
             activity?.volumeControlStream = AudioManager.USE_DEFAULT_STREAM_TYPE
@@ -254,10 +262,9 @@ class HomeFragment : Fragment() {
         }
 
         override fun onCallProgressing(progressingCall: Call) {
-            val path = Environment.getExternalStorageDirectory().absolutePath + "/Ringtones"
+            showIncomingCall()
+            playAudio(AudioManager.STREAM_VOICE_CALL)
 
-            val name = "songringtone4.mp3"
-            audioPlayer(path,name, AudioManager.STREAM_VOICE_CALL)
         }
 
         override fun onShouldSendPushNotification(
@@ -267,29 +274,51 @@ class HomeFragment : Fragment() {
         }
     }
 
+    fun playAudio (type: Int) {
+        val path = Environment.getExternalStorageDirectory().absolutePath + "/Ringtones"
+        var name = "songringtone4.mp3"
+        val subscription = readSubsription()
+        if (subscription != 0) {
+            name = "songringtone$subscription.mp3"
+        }
+        audioPlayer(path,name, type)
+    }
+
+    private fun readSubsription(): Int? {
+      return activity?.applicationContext?.getSharedPreferences(AppConstants.NAME,0)
+          ?.getInt(AppConstants.SHARED_PREF_SECTION, 0)
+    }
+
     private inner class SinchCallClientListener :
         CallClientListener {
         override fun onIncomingCall(
             callClient: CallClient,
             incomingCall: Call
         ) {
-            playRingtone()
             showIncomingCall()
+            playAudio(AudioManager.STREAM_MUSIC)
             callerText.text = "Incoming call"
             call = incomingCall
+            call?.addCallListener(SinchCallListener())
             Toast.makeText(activity, "incoming call", Toast.LENGTH_SHORT).show()
         }
     }
 
     fun playRingtone() {
-        val notification: Uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-        val r: Ringtone = RingtoneManager.getRingtone(activity?.applicationContext, notification)
-        r.play()
+        try {
+
+            val notification: Uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+            val r: Ringtone = RingtoneManager.getRingtone(activity?.applicationContext, notification)
+            r.play()
+        }catch (e : Exception) {
+            Log.e("ex","exce")
+        }
+
 
     }
     fun audioPlayer(path: String, fileName: String, type: Int) {
         //set up MediaPlayer
-        val mp = MediaPlayer()
+        mp = MediaPlayer()
         try {
             mp.setAudioStreamType(type)
             mp.setDataSource(path + File.separator + fileName)
