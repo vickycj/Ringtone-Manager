@@ -158,6 +158,7 @@ class HomeFragment : Fragment() {
     fun createInputData(i :Int): Data {
         return Data.Builder()
             .putInt(AppConstants.INPUT_KEY, i)
+            .putBoolean(AppConstants.DOWNLOAD_REQUIRED, true)
             .build()
     }
 

@@ -21,5 +21,6 @@ object AppConstants {
     const val CONTACT_1 = "contact_1"
     const val CONTACT_2 = "contact_2"
     const val CONTACT_3 = "contact_3"
+    const val DOWNLOAD_REQUIRED = "deownload-required"
 
 }

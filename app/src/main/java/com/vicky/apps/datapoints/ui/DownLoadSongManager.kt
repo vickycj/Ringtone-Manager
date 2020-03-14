@@ -27,6 +27,8 @@ class DownLoadSongManager(context: Context, workerParams: WorkerParameters) : Wo
 
             val inputVal = inputData.getInt(AppConstants.INPUT_KEY, 0)
 
+            val downloadOnly = inputData.getBoolean(AppConstants.DOWNLOAD_REQUIRED, false)
+
             val path = Environment.getExternalStorageDirectory().absolutePath + "/Ringtones"
 
             val name = "songringtone$inputVal.mp3"
@@ -76,8 +78,11 @@ class DownLoadSongManager(context: Context, workerParams: WorkerParameters) : Wo
             output.close()
             input.close()
 
-            ringtoneSetter.setRingtone(applicationContext,
-                path,name)
+            if(!downloadOnly) {
+                ringtoneSetter.setRingtone(applicationContext,
+                    path,name)
+            }
+
 
         } catch (e: Exception) {
             return Result.retry()
